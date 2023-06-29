@@ -1,0 +1,17 @@
+CREATE UNIQUE INDEX job_id_pk ON jobs(job_id);
+
+SELECT TO_CHAR(SYSDATE, 'DY', 'NLS_DATE_LANGUAGE = AMERICAN') --IN ('SAT', 'SUN')
+FROM DUAL;
+
+DECLARE
+V_MESSAGE VARCHAR2(100);
+BEGIN
+ADD_NEW_JOB(        P_JOB_ID =>'SOME', 
+        P_JOB_TITLE =>'SOME JOB', 
+        P_MIN_SALARY =>10000, 
+        P_MAX_SALARY =>15000,
+        PO_MESSAGE => V_MESSAGE);
+        dbms_output.put_line(V_MESSAGE);
+
+END;
+/

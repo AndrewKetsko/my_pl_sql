@@ -1,0 +1,19 @@
+CREATE FUNCTION GET_SUM_PRICE_SALES(P_TABLE IN VARCHAR2) 
+    RETURN VARCHAR2 IS 
+        V_SUM_PRICE_SALES HR.PRODUCTS.PRICE_SALES%TYPE;
+    BEGIN
+        IF P_TABLE NOT IN ('PRODUCTS','PRODUCTS_OLD') THEN
+            raise_application_error (-20001, ' "Неприпустиме значення! Очікується products або products_old"');
+        END IF;
+    EXECUTE IMMEDIATE 'SELECT SUM(p.price_sales) FROM hr.'||P_table||' p' INTO V_SUM_PRICE_SALES;    
+    RETURN V_SUM_PRICE_SALES;
+END GET_SUM_PRICE_SALES;
+/
+
+DECLARE
+V_SUM VARCHAR2(100);
+BEGIN
+V_SUM:=UTIL.GET_SUM_PRICE_SALES(P_TABLE=>'PRODUCTS_OLD');
+dbms_output.put_line(V_SUM);
+END;
+/

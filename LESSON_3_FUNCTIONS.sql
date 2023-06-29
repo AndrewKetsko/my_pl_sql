@@ -1,0 +1,56 @@
+SELECT TO_CHAR(SYSDATE,'DAY')
+FROM DUAL;
+
+CREATE FUNCTION GET_DAY RETURN VARCHAR2 IS
+    V_DAY VARCHAR2(20);
+BEGIN
+    SELECT TO_CHAR(SYSDATE,'DAY')
+    INTO V_DAY
+    FROM DUAL;
+    RETURN V_DAY;
+END GET_DAY;
+/
+
+SELECT GET_DAY
+FROM DUAL;
+
+BEGIN
+dbms_output.put_line(get_day);
+END;
+/
+
+SELECT SYSDATE, ADD_MONTHS(SYSDATE,1)
+FROM DUAL;
+
+create or replace FUNCTION ADD_YEARS(
+    P_DATE IN DATE,
+    P_YEAR IN NUMBER
+    ) RETURN DATE IS
+    V_DATE DATE;
+    V_YEAR NUMBER:=P_YEAR*12;
+    BEGIN
+    SELECT ADD_MONTHS(P_DATE,V_YEAR)
+    INTO V_DATE
+    FROM DUAL;
+RETURN V_DATE;
+    END;
+    /
+    
+SELECT ADD_YEARS(P_DATE=>SYSDATE, P_YEAR=>10) AS YYYY, SYSDATE
+   FROM DUAL;
+
+CREATE FUNCTION get_job_title(p_employee_id IN NUMBER) RETURN VARCHAR IS
+v_job_title jobs.job_title%TYPE;
+BEGIN
+    SELECT j.job_title
+    INTO v_job_title
+    FROM employees em
+    JOIN jobs j
+    ON em.job_id = j.job_id
+    WHERE em.employee_id = p_employee_id;
+RETURN v_job_title;
+END get_job_title;
+/
+
+SELECT GET_JOB_TITLE(P_EMPLOYEE_ID=>EM.EMPLOYEE_ID) AS JOB_TITLE
+FROM ANDREW.EMPLOYEES EM;
